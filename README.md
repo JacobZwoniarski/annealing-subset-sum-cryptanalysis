@@ -11,9 +11,8 @@ annealing-subset-sum-cryptanalysis
 
 ## Scope
 
-The project follows the plan in
-`docs/subset_sum_merkle_hellman_qubo_plan.md`. It focuses on small educational
-instances, not practical attacks on modern cryptographic systems.
+The project focuses on small educational instances, not practical attacks on
+modern cryptographic systems.
 
 Initial MVP:
 
@@ -35,12 +34,9 @@ uv run --no-editable annealing-crypto-summary
 uv run --no-editable annealing-crypto-plots
 ```
 
-The LaTeX report will be prepared after the implementation and experiments are
-stable.
-
 The demo notebook lives in `notebooks/01_demo_visualization.ipynb`. Generated
 benchmark CSV files and plots are kept local under `experiments/` and are not
 tracked by git.
 
-The report scaffold is in `report/main.tex`. It intentionally stays lightweight
-until the final experiment set is settled.
+The written report is developed separately in Overleaf. The final PDF should be
+added under `report/` when it is ready.
