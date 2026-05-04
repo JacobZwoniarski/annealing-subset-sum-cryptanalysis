@@ -7,6 +7,8 @@ __pycache__/
 .mypy_cache/
 .ipynb_checkpoints/
 
+docs/*.md
+
 experiments/raw/*.csv
 experiments/raw/*.json
 experiments/processed/*.csv
