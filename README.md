@@ -27,9 +27,11 @@ Initial MVP:
 ## Development
 
 ```bash
-uv sync --extra dev
+uv sync --extra dev --no-editable
 uv run pytest
 uv run annealing-crypto-demo
+uv run --no-editable annealing-crypto-benchmark --sizes 8 12 --trials 3
+uv run --no-editable annealing-crypto-plots
 ```
 
 The LaTeX report will be prepared after the implementation and experiments are

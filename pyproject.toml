@@ -26,6 +26,8 @@ notebook = [
 
 [project.scripts]
 annealing-crypto-demo = "annealing_crypto.cli.demo:main"
+annealing-crypto-benchmark = "annealing_crypto.cli.benchmark:main"
+annealing-crypto-plots = "annealing_crypto.cli.plots:main"
 
 [build-system]
 requires = ["hatchling"]
