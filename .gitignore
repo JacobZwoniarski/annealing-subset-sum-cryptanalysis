@@ -8,6 +8,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 docs/*.md
+quantum-and-post-quantum-cryptography-04inks-320-02442-23.pdf
 
 experiments/raw/*.csv
 experiments/raw/*.json

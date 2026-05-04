@@ -31,8 +31,16 @@ uv sync --extra dev --no-editable
 uv run pytest
 uv run annealing-crypto-demo
 uv run --no-editable annealing-crypto-benchmark --sizes 8 12 --trials 3
+uv run --no-editable annealing-crypto-summary
 uv run --no-editable annealing-crypto-plots
 ```
 
 The LaTeX report will be prepared after the implementation and experiments are
 stable.
+
+The demo notebook lives in `notebooks/01_demo_visualization.ipynb`. Generated
+benchmark CSV files and plots are kept local under `experiments/` and are not
+tracked by git.
+
+The report scaffold is in `report/main.tex`. It intentionally stays lightweight
+until the final experiment set is settled.
