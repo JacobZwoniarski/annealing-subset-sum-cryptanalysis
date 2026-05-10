@@ -1,58 +1,104 @@
 # Annealing Subset-Sum Cryptanalysis
 
-Educational Python project for modelling toy Merkle-Hellman cryptanalysis as
-subset-sum, QUBO, and annealing problems.
+Educational Python project for modelling a toy Merkle-Hellman knapsack
+cryptosystem as a subset-sum problem, encoding it as QUBO, and comparing exact
+and annealing-based solvers.
 
-Recommended repository name:
-
-```text
-annealing-subset-sum-cryptanalysis
-```
-
-## Scope
-
-The project focuses on small educational instances, not practical attacks on
+The project is intentionally limited to small instances. It is a reproducible
+demonstrator of cryptographic problem modelling, not a practical attack on
 modern cryptographic systems.
 
-Initial MVP:
+## What Is Included
 
-- implement toy Merkle-Hellman key generation, encryption, and legal
-  decryption,
-- generate subset-sum attack instances,
-- build the QUBO objective,
-- compare brute force and simulated annealing solvers,
-- export benchmark results and plots for the final report.
+- toy Merkle-Hellman key generation, encryption, and trapdoor decryption,
+- subset-sum instance generation from random and Merkle-Hellman sources,
+- QUBO/BQM construction for the squared subset-sum residual,
+- brute force, exact QUBO, simulated annealing, and local SQA-style solvers,
+- benchmark export, validation, aggregation, and plot generation,
+- a Jupyter notebook for inspecting the demo and benchmark outputs,
+- the final report PDF in `report/`.
 
-The reproducible benchmark uses brute force, exact QUBO solving, classical
-simulated annealing, and a local simulated quantum annealing-style solver. It
-does not claim results from a physical D-Wave QPU.
+The SQA-style solver is a local classical simulation inspired by quantum
+annealing. It is not a physical D-Wave QPU run.
 
-Benchmark metrics separate two notions that matter in the report:
+## Repository Layout
 
-- `exact_hit_rate`: whether the solver found any subset with objective value
-  `0`,
-- `known_solution_match_rate`: whether it recovered the planted bit vector.
+```text
+src/annealing_crypto/      Python package with models, solvers, CLI, experiments
+tests/                     Unit and integration tests
+notebooks/                 Demo and visualization notebook
+experiments/configs/       Versioned benchmark configuration
+experiments/raw/           Local generated benchmark CSV files, ignored by git
+experiments/processed/     Local generated summaries, ignored by git
+experiments/plots/         Local generated report plots, ignored by git
+report/                    Final exported report PDF
+```
 
-For random subset-sum instances these can differ, because multiple subsets may
-produce the same target. The report benchmark uses a wider random weight range
-to reduce accidental collisions. For Merkle-Hellman toy attacks, the planted
-vector is the encrypted message, so both metrics are useful.
+## Reproduce The Project
 
-## Development
+Install dependencies:
 
 ```bash
 uv sync --extra dev --extra notebook --no-editable
-uv run pytest
-uv run annealing-crypto-demo
+```
+
+Run the test suite:
+
+```bash
+uv run --no-editable pytest
+```
+
+Run the demo CLI:
+
+```bash
+uv run --no-editable annealing-crypto-demo
+```
+
+Regenerate the report benchmark and plots:
+
+```bash
 uv run --no-editable annealing-crypto-benchmark --config experiments/configs/report_benchmark.json
-uv run --no-editable annealing-crypto-validate --config experiments/configs/report_benchmark.json
+uv run --no-sync annealing-crypto-validate --config experiments/configs/report_benchmark.json
 uv run --no-editable annealing-crypto-summary
 uv run --no-editable annealing-crypto-plots
 ```
 
-The demo notebook lives in `notebooks/01_demo_visualization.ipynb`. Generated
-benchmark CSV files and plots are kept local under `experiments/` and are not
-tracked by git.
+Open the notebook:
 
-The written report is developed separately in Overleaf. The final PDF should be
-added under `report/` when it is ready.
+```text
+notebooks/01_demo_visualization.ipynb
+```
+
+Use the project interpreter from `.venv/bin/python` if VS Code asks for a
+notebook kernel.
+
+## Benchmark Notes
+
+The report benchmark uses:
+
+- sizes `8`, `12`, and `16`,
+- `5` trials per setting,
+- random and Merkle-Hellman-derived subset-sum instances,
+- brute force, simulated annealing, and local SQA-style solvers.
+
+The main metrics are:
+
+- `exact_hit_rate`: whether the solver found any subset with objective value
+  `0`,
+- `known_solution_match_rate`: whether the recovered bit vector matches the
+  planted vector,
+- runtime, objective value, and Hamming distance.
+
+Generated CSV files and plots are ignored by git so the repository stays small.
+The final report PDF contains the selected plots and interpretation.
+
+## Report
+
+The final exported report is:
+
+```text
+report/Annealing_Subset_Sum_Cryptanalysis.pdf
+```
+
+The LaTeX source was prepared separately in Overleaf. Only the final PDF is
+tracked in this repository.

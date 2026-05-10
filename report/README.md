@@ -1,6 +1,14 @@
 # Report
 
-The report text is written separately in Overleaf.
+This directory contains the final exported project report:
 
-This directory is reserved for the final exported PDF and any final figures that
-need to be submitted with the project.
+```text
+Annealing_Subset_Sum_Cryptanalysis.pdf
+```
+
+The report was written and compiled separately in Overleaf. The repository keeps
+the final PDF for submission/review; the working LaTeX sources are not tracked
+here.
+
+`figures/` is reserved for final report figures if they need to be submitted
+separately from the PDF.
