@@ -55,3 +55,19 @@ def test_validate_benchmark_csv_rejects_duplicate_grid_key(tmp_path) -> None:
 
     with pytest.raises(ValueError, match="duplicate benchmark rows"):
         validate_benchmark_csv(output_path, config=config)
+
+
+def test_validate_benchmark_csv_rejects_planted_match_without_exact_hit(tmp_path) -> None:
+    output_path = tmp_path / "benchmark.csv"
+    output_path.write_text(
+        "\n".join(
+            [
+                "scenario_id,source,n_bits,trial,seed,solver,success,exact_hit,"
+                "known_solution_match,objective_value,runtime_ms,hamming_distance",
+                "case-1,random,4,0,123,simulated_annealing,false,false,true,1,2.0,0",
+            ]
+        )
+    )
+
+    with pytest.raises(ValueError, match="requires exact_hit"):
+        validate_benchmark_csv(output_path)

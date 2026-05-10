@@ -53,6 +53,17 @@ def test_decrypt_roundtrip_for_many_messages() -> None:
             assert decrypt_ciphertext(keypair.private, ciphertext) == message
 
 
+def test_decrypt_roundtrip_for_benchmark_sized_keys() -> None:
+    for n_bits in (8, 12, 16):
+        for seed in range(20260504, 20260509):
+            keypair = generate_keypair(n_bits, seed=seed + n_bits * 1_000)
+            message = tuple((seed + index) % 2 for index in range(n_bits))
+            ciphertext = encrypt_bits(keypair.public, message)
+
+            assert is_superincreasing(keypair.private.weights)
+            assert decrypt_ciphertext(keypair.private, ciphertext) == message
+
+
 def test_encrypt_rejects_wrong_message_length() -> None:
     public_key = MerkleHellmanPublicKey(weights=(1, 2, 3))
 

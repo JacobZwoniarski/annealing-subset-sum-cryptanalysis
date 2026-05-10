@@ -101,9 +101,17 @@ def decrypt_ciphertext(private_key: MerkleHellmanPrivateKey, ciphertext: int) ->
 
 
 def _choose_coprime_multiplier(modulus: int, rng: Random) -> int:
-    candidates = list(range(2, modulus))
-    rng.shuffle(candidates)
-    for candidate in candidates:
+    if modulus <= 2:
+        raise ValueError(f"could not find coprime multiplier for modulus={modulus}")
+
+    max_random_attempts = max(32, modulus.bit_length() * 8)
+    for _ in range(max_random_attempts):
+        candidate = rng.randrange(2, modulus)
+        if gcd(candidate, modulus) == 1:
+            return candidate
+
+    # Rare fallback for unlucky draws; avoids allocating range(2, modulus) as a list.
+    for candidate in range(2, modulus):
         if gcd(candidate, modulus) == 1:
             return candidate
     raise ValueError(f"could not find coprime multiplier for modulus={modulus}")

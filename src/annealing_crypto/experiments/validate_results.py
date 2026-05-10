@@ -96,6 +96,9 @@ def _check_hamming_ranges(data: pd.DataFrame) -> str:
     known_match = data["known_solution_match"].map(_to_bool)
     if not (known_match == (hamming == 0)).all():
         raise ValueError("known_solution_match does not match hamming_distance == 0")
+    exact_hit = data["exact_hit"].map(_to_bool)
+    if (known_match & ~exact_hit).any():
+        raise ValueError("known_solution_match requires exact_hit")
     return "hamming distances and planted-vector flags are consistent"
 
 
