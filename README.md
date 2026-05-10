@@ -33,7 +33,7 @@ does not claim results from a physical D-Wave QPU.
 uv sync --extra dev --no-editable
 uv run pytest
 uv run annealing-crypto-demo
-uv run --no-editable annealing-crypto-benchmark --sizes 8 12 --trials 3
+uv run --no-editable annealing-crypto-benchmark --config experiments/configs/report_benchmark.json
 uv run --no-editable annealing-crypto-summary
 uv run --no-editable annealing-crypto-plots
 ```

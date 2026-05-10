@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 from typing import Literal
 
 from annealing_crypto.config import DEFAULT_RANDOM_SEED
@@ -49,6 +50,29 @@ class BenchmarkConfig:
     quantum_sweeps: int = 300
     quantum_trotter_slices: int = 8
     quantum_beta: float = 0.05
+
+
+def benchmark_config_from_mapping(data: dict[str, Any]) -> BenchmarkConfig:
+    defaults = BenchmarkConfig()
+    return BenchmarkConfig(
+        sizes=tuple(data.get("sizes", defaults.sizes)),
+        trials=int(data.get("trials", defaults.trials)),
+        base_seed=int(data.get("base_seed", defaults.base_seed)),
+        sources=tuple(data.get("sources", defaults.sources)),
+        solvers=tuple(data.get("solvers", defaults.solvers)),
+        brute_force_max_bits=int(
+            data.get("brute_force_max_bits", defaults.brute_force_max_bits)
+        ),
+        exact_qubo_max_bits=int(data.get("exact_qubo_max_bits", defaults.exact_qubo_max_bits)),
+        annealing_reads=int(data.get("annealing_reads", defaults.annealing_reads)),
+        annealing_sweeps=int(data.get("annealing_sweeps", defaults.annealing_sweeps)),
+        quantum_reads=int(data.get("quantum_reads", defaults.quantum_reads)),
+        quantum_sweeps=int(data.get("quantum_sweeps", defaults.quantum_sweeps)),
+        quantum_trotter_slices=int(
+            data.get("quantum_trotter_slices", defaults.quantum_trotter_slices)
+        ),
+        quantum_beta=float(data.get("quantum_beta", defaults.quantum_beta)),
+    )
 
 
 def run_benchmark(config: BenchmarkConfig = BenchmarkConfig()) -> list[dict[str, object]]:

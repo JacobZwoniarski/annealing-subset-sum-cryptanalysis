@@ -3,10 +3,15 @@
 from __future__ import annotations
 
 import argparse
+import json
 from pathlib import Path
 
 from annealing_crypto.experiments.export_results import write_benchmark_csv
-from annealing_crypto.experiments.run_benchmark import BenchmarkConfig, run_benchmark
+from annealing_crypto.experiments.run_benchmark import (
+    BenchmarkConfig,
+    benchmark_config_from_mapping,
+    run_benchmark,
+)
 
 
 def main() -> None:
@@ -16,6 +21,7 @@ def main() -> None:
         type=Path,
         default=Path("experiments/raw/benchmark.csv"),
     )
+    parser.add_argument("--config", type=Path)
     parser.add_argument("--sizes", type=int, nargs="+", default=[8, 12, 16])
     parser.add_argument("--trials", type=int, default=5)
     parser.add_argument("--annealing-reads", type=int, default=100)
@@ -26,16 +32,19 @@ def main() -> None:
     parser.add_argument("--quantum-beta", type=float, default=0.05)
     args = parser.parse_args()
 
-    config = BenchmarkConfig(
-        sizes=tuple(args.sizes),
-        trials=args.trials,
-        annealing_reads=args.annealing_reads,
-        annealing_sweeps=args.annealing_sweeps,
-        quantum_reads=args.quantum_reads,
-        quantum_sweeps=args.quantum_sweeps,
-        quantum_trotter_slices=args.quantum_trotter_slices,
-        quantum_beta=args.quantum_beta,
-    )
+    if args.config is not None:
+        config = benchmark_config_from_mapping(json.loads(args.config.read_text()))
+    else:
+        config = BenchmarkConfig(
+            sizes=tuple(args.sizes),
+            trials=args.trials,
+            annealing_reads=args.annealing_reads,
+            annealing_sweeps=args.annealing_sweeps,
+            quantum_reads=args.quantum_reads,
+            quantum_sweeps=args.quantum_sweeps,
+            quantum_trotter_slices=args.quantum_trotter_slices,
+            quantum_beta=args.quantum_beta,
+        )
     rows = run_benchmark(config)
     write_benchmark_csv(rows, args.output)
     print(f"wrote {len(rows)} rows to {args.output}")

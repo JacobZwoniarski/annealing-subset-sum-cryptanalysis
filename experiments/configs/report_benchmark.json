@@ -1,0 +1,18 @@
+{
+  "sizes": [8, 12, 16],
+  "trials": 5,
+  "base_seed": 20260504,
+  "sources": ["random", "merkle_hellman"],
+  "solvers": [
+    "brute_force",
+    "simulated_annealing",
+    "simulated_quantum_annealing"
+  ],
+  "brute_force_max_bits": 24,
+  "annealing_reads": 100,
+  "annealing_sweeps": 500,
+  "quantum_reads": 20,
+  "quantum_sweeps": 100,
+  "quantum_trotter_slices": 6,
+  "quantum_beta": 0.05
+}
