@@ -41,7 +41,7 @@ vector is the encrypted message, so both metrics are useful.
 ## Development
 
 ```bash
-uv sync --extra dev --no-editable
+uv sync --extra dev --extra notebook --no-editable
 uv run pytest
 uv run annealing-crypto-demo
 uv run --no-editable annealing-crypto-benchmark --config experiments/configs/report_benchmark.json

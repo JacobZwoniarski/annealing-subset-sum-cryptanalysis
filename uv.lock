@@ -27,6 +27,7 @@ dev = [
     { name = "pytest" },
 ]
 notebook = [
+    { name = "ipykernel" },
     { name = "jupyterlab" },
 ]
 
@@ -34,6 +35,7 @@ notebook = [
 requires-dist = [
     { name = "dimod", specifier = ">=0.12" },
     { name = "dwave-neal", specifier = ">=0.6" },
+    { name = "ipykernel", marker = "extra == 'notebook'", specifier = ">=7.0" },
     { name = "jupyterlab", marker = "extra == 'notebook'", specifier = ">=4.0" },
     { name = "matplotlib", specifier = ">=3.9" },
     { name = "numpy", specifier = ">=2.0" },
