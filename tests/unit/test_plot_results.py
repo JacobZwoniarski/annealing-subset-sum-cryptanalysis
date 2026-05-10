@@ -15,6 +15,7 @@ def test_generate_benchmark_plots_creates_expected_png_files(tmp_path) -> None:
             "solver": "brute_force",
             "success": True,
             "exact_hit": True,
+            "known_solution_match": True,
             "objective_value": 0,
             "runtime_ms": 0.1,
             "hamming_distance": 0,
@@ -31,6 +32,7 @@ def test_generate_benchmark_plots_creates_expected_png_files(tmp_path) -> None:
             "solver": "simulated_annealing",
             "success": True,
             "exact_hit": True,
+            "known_solution_match": True,
             "objective_value": 0,
             "runtime_ms": 1.2,
             "hamming_distance": 0,
@@ -48,6 +50,7 @@ def test_generate_benchmark_plots_creates_expected_png_files(tmp_path) -> None:
             "solver": "simulated_quantum_annealing",
             "success": False,
             "exact_hit": False,
+            "known_solution_match": False,
             "objective_value": 4,
             "runtime_ms": 1.5,
             "hamming_distance": 1,
@@ -67,5 +70,6 @@ def test_generate_benchmark_plots_creates_expected_png_files(tmp_path) -> None:
         "success_rate_vs_n.png",
         "runtime_ms_vs_n.png",
         "objective_value_vs_n.png",
+        "hamming_distance_vs_n.png",
     ]
     assert all(path.exists() and path.stat().st_size > 0 for path in outputs)

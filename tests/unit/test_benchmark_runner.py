@@ -34,6 +34,7 @@ def test_benchmark_runner_returns_one_row_per_solver_and_scenario() -> None:
         "simulated_quantum_annealing",
     }
     assert all(set(BENCHMARK_COLUMNS).issubset(row) for row in rows)
+    assert all(row["success"] == row["exact_hit"] for row in rows)
 
 
 def test_benchmark_csv_roundtrip(tmp_path) -> None:
@@ -63,6 +64,7 @@ def test_benchmark_config_from_mapping_applies_overrides() -> None:
             "solvers": ["brute_force", "simulated_quantum_annealing"],
             "quantum_reads": 7,
             "quantum_trotter_slices": 5,
+            "random_weight_max": 999,
         }
     )
 
@@ -71,3 +73,4 @@ def test_benchmark_config_from_mapping_applies_overrides() -> None:
     assert config.solvers == ("brute_force", "simulated_quantum_annealing")
     assert config.quantum_reads == 7
     assert config.quantum_trotter_slices == 5
+    assert config.random_weight_max == 999

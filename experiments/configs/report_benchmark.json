@@ -14,5 +14,7 @@
   "quantum_reads": 20,
   "quantum_sweeps": 100,
   "quantum_trotter_slices": 6,
-  "quantum_beta": 0.05
+  "quantum_beta": 0.05,
+  "random_weight_min": 1,
+  "random_weight_max": 1000000
 }

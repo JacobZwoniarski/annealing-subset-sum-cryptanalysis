@@ -57,6 +57,8 @@ def iter_scenarios(
     trials: int,
     base_seed: int,
     sources: tuple[ScenarioSource, ...] = ("random", "merkle_hellman"),
+    weight_min: int = 1,
+    weight_max: int = 100,
 ) -> list[BenchmarkScenario]:
     if not sizes:
         raise ValueError("sizes must not be empty")
@@ -74,6 +76,8 @@ def iter_scenarios(
                         n_bits=n_bits,
                         trial=trial,
                         seed=seed,
+                        weight_min=weight_min,
+                        weight_max=weight_max,
                     )
                 )
     return scenarios

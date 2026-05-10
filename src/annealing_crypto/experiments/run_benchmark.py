@@ -50,6 +50,8 @@ class BenchmarkConfig:
     quantum_sweeps: int = 300
     quantum_trotter_slices: int = 8
     quantum_beta: float = 0.05
+    random_weight_min: int = 1
+    random_weight_max: int = 100
 
 
 def benchmark_config_from_mapping(data: dict[str, Any]) -> BenchmarkConfig:
@@ -72,6 +74,8 @@ def benchmark_config_from_mapping(data: dict[str, Any]) -> BenchmarkConfig:
             data.get("quantum_trotter_slices", defaults.quantum_trotter_slices)
         ),
         quantum_beta=float(data.get("quantum_beta", defaults.quantum_beta)),
+        random_weight_min=int(data.get("random_weight_min", defaults.random_weight_min)),
+        random_weight_max=int(data.get("random_weight_max", defaults.random_weight_max)),
     )
 
 
@@ -82,6 +86,8 @@ def run_benchmark(config: BenchmarkConfig = BenchmarkConfig()) -> list[dict[str,
         trials=config.trials,
         base_seed=config.base_seed,
         sources=config.sources,
+        weight_min=config.random_weight_min,
+        weight_max=config.random_weight_max,
     )
     for scenario in scenarios:
         instance = build_instance(scenario)
@@ -126,10 +132,10 @@ def _result_row(
     result: SolverResult,
 ) -> dict[str, object]:
     distance = None
-    success = result.exact_hit
+    known_solution_match = None
     if instance.known_solution is not None:
         distance = hamming_distance(result.solution, instance.known_solution)
-        success = distance == 0
+        known_solution_match = distance == 0
 
     return {
         "scenario_id": scenario.scenario_id,
@@ -138,8 +144,9 @@ def _result_row(
         "trial": scenario.trial,
         "seed": scenario.seed,
         "solver": result.solver,
-        "success": success,
+        "success": result.exact_hit,
         "exact_hit": result.exact_hit,
+        "known_solution_match": known_solution_match,
         "objective_value": result.objective_value,
         "runtime_ms": result.runtime_ms,
         "hamming_distance": distance,

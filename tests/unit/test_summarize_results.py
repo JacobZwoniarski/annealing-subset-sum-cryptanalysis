@@ -32,8 +32,10 @@ def test_summarize_benchmark_groups_solver_results(tmp_path) -> None:
     assert list(summary.columns) == list(SUMMARY_COLUMNS)
     brute_force = summary[summary["solver"] == "brute_force"].iloc[0]
     assert brute_force["trials"] == 2
-    assert brute_force["success_rate"] == 0.5
+    assert brute_force["exact_hit_rate"] == 0.5
+    assert brute_force["known_solution_match_rate"] == 0.5
     assert brute_force["mean_runtime_ms"] == pytest.approx(0.3)
+    assert brute_force["median_runtime_ms"] == pytest.approx(0.3)
     assert brute_force["median_objective_value"] == pytest.approx(4.5)
     assert brute_force["mean_hamming_distance"] == pytest.approx(1.0)
 
@@ -49,7 +51,7 @@ def test_write_summary_csv_creates_processed_file(tmp_path) -> None:
     write_summary_csv(input_csv, output_csv)
 
     assert output_csv.exists()
-    assert "success_rate" in output_csv.read_text(encoding="utf-8")
+    assert "exact_hit_rate" in output_csv.read_text(encoding="utf-8")
 
 
 def _row(
@@ -71,6 +73,7 @@ def _row(
         "solver": solver,
         "success": success,
         "exact_hit": objective_value == 0,
+        "known_solution_match": hamming_distance == 0,
         "objective_value": objective_value,
         "runtime_ms": runtime_ms,
         "hamming_distance": hamming_distance,

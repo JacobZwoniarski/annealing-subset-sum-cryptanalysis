@@ -17,6 +17,7 @@ BENCHMARK_COLUMNS = (
     "solver",
     "success",
     "exact_hit",
+    "known_solution_match",
     "objective_value",
     "runtime_ms",
     "hamming_distance",
