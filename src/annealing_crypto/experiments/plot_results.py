@@ -129,9 +129,9 @@ def _metric_plot(
     fig, axes = plt.subplots(
         1,
         len(sources),
-        figsize=(10.5, 4.2),
+        figsize=(11.0, 4.8),
         sharey=True,
-        constrained_layout=True,
+        constrained_layout=False,
     )
     if len(sources) == 1:
         axes = [axes]
@@ -163,6 +163,7 @@ def _metric_plot(
 
     axes[0].set_ylabel(y_label)
     fig.suptitle(title, fontsize=13, fontweight="bold")
+    fig.subplots_adjust(bottom=0.24, top=0.82, wspace=0.14)
     ordered_solvers = [solver for solver in SOLVER_LABELS if solver in handles]
     fig.legend(
         [handles[solver] for solver in ordered_solvers],
@@ -170,7 +171,7 @@ def _metric_plot(
         loc="lower center",
         ncol=min(3, len(handles)),
         frameon=False,
-        bbox_to_anchor=(0.5, -0.04),
+        bbox_to_anchor=(0.5, 0.03),
     )
 
     fig.savefig(output_path, dpi=200, bbox_inches="tight")
