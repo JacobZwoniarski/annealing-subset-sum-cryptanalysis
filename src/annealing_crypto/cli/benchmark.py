@@ -20,6 +20,10 @@ def main() -> None:
     parser.add_argument("--trials", type=int, default=5)
     parser.add_argument("--annealing-reads", type=int, default=100)
     parser.add_argument("--annealing-sweeps", type=int, default=1_000)
+    parser.add_argument("--quantum-reads", type=int, default=50)
+    parser.add_argument("--quantum-sweeps", type=int, default=300)
+    parser.add_argument("--quantum-trotter-slices", type=int, default=8)
+    parser.add_argument("--quantum-beta", type=float, default=0.05)
     args = parser.parse_args()
 
     config = BenchmarkConfig(
@@ -27,6 +31,10 @@ def main() -> None:
         trials=args.trials,
         annealing_reads=args.annealing_reads,
         annealing_sweeps=args.annealing_sweeps,
+        quantum_reads=args.quantum_reads,
+        quantum_sweeps=args.quantum_sweeps,
+        quantum_trotter_slices=args.quantum_trotter_slices,
+        quantum_beta=args.quantum_beta,
     )
     rows = run_benchmark(config)
     write_benchmark_csv(rows, args.output)

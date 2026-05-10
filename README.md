@@ -23,6 +23,10 @@ Initial MVP:
 - compare brute force and simulated annealing solvers,
 - export benchmark results and plots for the final report.
 
+The reproducible benchmark uses brute force, exact QUBO solving, classical
+simulated annealing, and a local simulated quantum annealing-style solver. It
+does not claim results from a physical D-Wave QPU.
+
 ## Development
 
 ```bash

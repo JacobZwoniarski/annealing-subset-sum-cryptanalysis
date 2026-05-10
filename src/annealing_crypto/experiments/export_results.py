@@ -25,6 +25,10 @@ BENCHMARK_COLUMNS = (
     "evaluated_states",
     "num_reads",
     "num_sweeps",
+    "trotter_slices",
+    "beta",
+    "transverse_field_start",
+    "transverse_field_end",
 )
 
 

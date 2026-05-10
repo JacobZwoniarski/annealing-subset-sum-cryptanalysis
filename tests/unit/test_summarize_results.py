@@ -14,6 +14,16 @@ def test_summarize_benchmark_groups_solver_results(tmp_path) -> None:
         _row("random-n4-t0-s1", "random", 4, "brute_force", True, 0.2, 0, 0),
         _row("random-n4-t1-s2", "random", 4, "brute_force", False, 0.4, 9, 2),
         _row("random-n4-t0-s1", "random", 4, "simulated_annealing", True, 1.2, 0, 0),
+        _row(
+            "random-n4-t0-s1",
+            "random",
+            4,
+            "simulated_quantum_annealing",
+            False,
+            1.8,
+            4,
+            1,
+        ),
     ]
     write_benchmark_csv(rows, input_csv)
 

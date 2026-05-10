@@ -11,16 +11,27 @@ def test_benchmark_runner_returns_one_row_per_solver_and_scenario() -> None:
         sizes=(4,),
         trials=1,
         sources=("random", "merkle_hellman"),
-        solvers=("brute_force", "simulated_annealing"),
+        solvers=(
+            "brute_force",
+            "simulated_annealing",
+            "simulated_quantum_annealing",
+        ),
         annealing_reads=20,
         annealing_sweeps=50,
+        quantum_reads=5,
+        quantum_sweeps=10,
+        quantum_trotter_slices=3,
     )
 
     rows = run_benchmark(config)
 
-    assert len(rows) == 4
+    assert len(rows) == 6
     assert {row["source"] for row in rows} == {"random", "merkle_hellman"}
-    assert {row["solver"] for row in rows} == {"brute_force", "simulated_annealing"}
+    assert {row["solver"] for row in rows} == {
+        "brute_force",
+        "simulated_annealing",
+        "simulated_quantum_annealing",
+    }
     assert all(set(BENCHMARK_COLUMNS).issubset(row) for row in rows)
 
 

@@ -16,10 +16,18 @@ from annealing_crypto.metrics import hamming_distance
 from annealing_crypto.solvers.brute_force import solve_brute_force
 from annealing_crypto.solvers.exact_qubo import solve_exact_qubo
 from annealing_crypto.solvers.simulated_annealing import solve_simulated_annealing
+from annealing_crypto.solvers.simulated_quantum_annealing import (
+    solve_simulated_quantum_annealing,
+)
 from annealing_crypto.subset_sum import SubsetSumInstance
 from annealing_crypto.types import SolverResult
 
-SolverName = Literal["brute_force", "exact_qubo", "simulated_annealing"]
+SolverName = Literal[
+    "brute_force",
+    "exact_qubo",
+    "simulated_annealing",
+    "simulated_quantum_annealing",
+]
 
 
 @dataclass(frozen=True)
@@ -28,11 +36,19 @@ class BenchmarkConfig:
     trials: int = 5
     base_seed: int = DEFAULT_RANDOM_SEED
     sources: tuple[ScenarioSource, ...] = ("random", "merkle_hellman")
-    solvers: tuple[SolverName, ...] = ("brute_force", "simulated_annealing")
+    solvers: tuple[SolverName, ...] = (
+        "brute_force",
+        "simulated_annealing",
+        "simulated_quantum_annealing",
+    )
     brute_force_max_bits: int = 24
     exact_qubo_max_bits: int = 18
     annealing_reads: int = 100
     annealing_sweeps: int = 1_000
+    quantum_reads: int = 50
+    quantum_sweeps: int = 300
+    quantum_trotter_slices: int = 8
+    quantum_beta: float = 0.05
 
 
 def run_benchmark(config: BenchmarkConfig = BenchmarkConfig()) -> list[dict[str, object]]:
@@ -68,6 +84,15 @@ def _run_solver(
             num_sweeps=config.annealing_sweeps,
             seed=scenario.seed,
         )
+    if solver == "simulated_quantum_annealing":
+        return solve_simulated_quantum_annealing(
+            instance,
+            num_reads=config.quantum_reads,
+            num_sweeps=config.quantum_sweeps,
+            trotter_slices=config.quantum_trotter_slices,
+            beta=config.quantum_beta,
+            seed=scenario.seed,
+        )
     raise ValueError(f"unsupported solver: {solver}")
 
 
@@ -99,4 +124,8 @@ def _result_row(
         "evaluated_states": result.metadata.get("evaluated_states"),
         "num_reads": result.metadata.get("num_reads"),
         "num_sweeps": result.metadata.get("num_sweeps"),
+        "trotter_slices": result.metadata.get("trotter_slices"),
+        "beta": result.metadata.get("beta"),
+        "transverse_field_start": result.metadata.get("transverse_field_start"),
+        "transverse_field_end": result.metadata.get("transverse_field_end"),
     }

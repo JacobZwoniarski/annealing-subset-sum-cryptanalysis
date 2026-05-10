@@ -39,6 +39,25 @@ def test_generate_benchmark_plots_creates_expected_png_files(tmp_path) -> None:
             "num_reads": 20,
             "num_sweeps": 50,
         },
+        {
+            "scenario_id": "random-n4-t0-s1",
+            "source": "random",
+            "n_bits": 4,
+            "trial": 0,
+            "seed": 1,
+            "solver": "simulated_quantum_annealing",
+            "success": False,
+            "exact_hit": False,
+            "objective_value": 4,
+            "runtime_ms": 1.5,
+            "hamming_distance": 1,
+            "target": 9,
+            "weight_sum": 30,
+            "num_reads": 10,
+            "num_sweeps": 30,
+            "trotter_slices": 4,
+            "beta": 0.05,
+        },
     ]
     write_benchmark_csv(rows, input_csv)
 
