@@ -29,6 +29,7 @@ annealing-crypto-demo = "annealing_crypto.cli.demo:main"
 annealing-crypto-benchmark = "annealing_crypto.cli.benchmark:main"
 annealing-crypto-plots = "annealing_crypto.cli.plots:main"
 annealing-crypto-summary = "annealing_crypto.cli.summary:main"
+annealing-crypto-validate = "annealing_crypto.cli.validate:main"
 
 [build-system]
 requires = ["hatchling"]

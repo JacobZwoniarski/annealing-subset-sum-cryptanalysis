@@ -45,6 +45,7 @@ uv sync --extra dev --no-editable
 uv run pytest
 uv run annealing-crypto-demo
 uv run --no-editable annealing-crypto-benchmark --config experiments/configs/report_benchmark.json
+uv run --no-editable annealing-crypto-validate --config experiments/configs/report_benchmark.json
 uv run --no-editable annealing-crypto-summary
 uv run --no-editable annealing-crypto-plots
 ```
